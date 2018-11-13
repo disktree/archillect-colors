@@ -22,6 +22,7 @@ class App {
 
 	#if js
 
+	static var colors = getColors( '/home/tong/dev/pro/archillect/meta', 1, 4000 );
 	static var info : Element;
 
 	static function updatePositionInfo() {
@@ -29,8 +30,6 @@ class App {
 	}
 
 	static function main() {
-
-		var colors = getColors( '/home/tong/dev/pro/archillect/meta', 1, 44000 );
 
 		var colorsPerCanvas = 1000;
 		var canvas : CanvasElement = null;
