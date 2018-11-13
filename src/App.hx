@@ -26,7 +26,7 @@ class App {
 	static var info : Element;
 
 	static function updatePositionInfo() {
-		info.textContent = (window.scrollY+1)+'-'+(window.scrollY+window.innerHeight);
+		info.textContent = (colors.length - window.scrollY)+'-'+(colors.length - (window.scrollY+window.innerHeight)+1);
 	}
 
 	static function main() {
