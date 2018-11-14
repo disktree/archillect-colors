@@ -1,45 +1,14 @@
 
-#if js
 import js.Browser.window;
 import js.Browser.document;
 import js.html.Element;
 import js.html.CanvasElement;
 import js.html.CanvasRenderingContext2D;
-#end
+import om.FetchTools;
 
 class App {
 
-	macro static function getColors( path : String, start : Int, end : Int, split : Int ) {
-		var total = end - start;
-		var parts = new Array<Array<String>>();
-		var i = 0;
-		while( true ) {
-			var j = 0;
-			var part = new Array<String>();
-			parts.push( part );
-			while( j < split ) {
-				var k = start+i;
-				var data = haxe.Json.parse( sys.io.File.getContent( '$path/'+k+'.json' ) ).color;
-				if( data == null ) {
-					trace( 'NULL! [$k]' );
-					data = { r : 0, g : 0, b : 0, a : 1.0 };
-				}
-				var rgb = om.color.space.RGB.create( data.r, data.g, data.b );
-				part.push( rgb.toHex() );
-				j++;
-				if( ++i > total )
-					return macro $v{parts};
-			}
-		}
-		return macro null;
-	}
-
-	#if js
-
-	static inline var INDEX_START = 1;
-	static inline var INDEX_END = 199795;
-
-	static var numColors = INDEX_END - INDEX_START;
+	static var numColors : Int;
 	static var info : Element;
 
 	static function updatePositionInfo() {
@@ -54,37 +23,45 @@ class App {
 
 		window.onload = function() {
 
-			var colorBlocks = getColors( '/home/tong/dev/pro/archillect/meta', 1, 199795, 1000 );
-
 			info = document.createDivElement();
 			info.id = 'info';
 			document.body.appendChild( info );
 
-			for( i in 0...colorBlocks.length ) {
-				var colors = colorBlocks[i];
-				var canvas = document.createCanvasElement();
-				canvas.width = 1; //window.innerWidth;
-				canvas.height = colors.length;
-				document.body.appendChild( canvas );
-				var ctx = canvas.getContext2d();
-				for( j in 0...colors.length ) {
-					var c = colors[j];
-					ctx.fillStyle = c;
-					ctx.fillRect( 0, j, canvas.width, 1 );
+			info.textContent = 'LOADING COLORS';
+
+			FetchTools.fetchJson( 'colors.json' ).then( function(colors:Array<String>){
+
+				numColors = colors.length;
+
+				var colorsPerCanvas = 1000;
+				var canvas : CanvasElement = null;
+				var ctx : CanvasRenderingContext2D = null;
+				var lastBlockColors = colors.length % colorsPerCanvas;
+				var numBlocks = Std.int( (colors.length - lastBlockColors) / colorsPerCanvas );
+				for( i in 0...numBlocks+1 ) {
+					var n = (i == numBlocks) ? lastBlockColors : colorsPerCanvas;
+					canvas = document.createCanvasElement();
+					canvas.setAttribute( 'data-index', Std.string( i ) );
+					canvas.width = 1;
+					canvas.height = n;
+					document.body.appendChild( canvas );
+					ctx = canvas.getContext2d();
+					for( j in 0...n+1 ) {
+						ctx.fillStyle = colors[(i*colorsPerCanvas)+j];
+						ctx.fillRect( 0, j, 1, 1 );
+					}
 				}
-			}
 
-			updatePositionInfo();
+				updatePositionInfo();
 
-			window.addEventListener( 'scroll', function(e){
-				updatePositionInfo();
-			}, false );
-			window.addEventListener( 'resize', function(e){
-				updatePositionInfo();
-			}, false );
+				window.addEventListener( 'scroll', function(e){
+					updatePositionInfo();
+				}, false );
+				window.addEventListener( 'resize', function(e){
+					updatePositionInfo();
+				}, false );
+
+			});
 		}
 	}
-
-	#end
-
 }

@@ -1,5 +1,5 @@
--js bin/app.js
--main App
+-neko gen.n
+-main Gen
 -lib om.color
 -cp src
 -dce full
