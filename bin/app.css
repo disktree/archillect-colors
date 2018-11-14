@@ -31,7 +31,7 @@ canvas {
 	position: fixed;
 	top: 2px;
 	right: 2px;
-	padding: 4px 6px;
+	padding: 4px 6px 3px 6px;
 	background: rgba(0,0,0,0.8);
 	color: #fff;
 	user-select: none;

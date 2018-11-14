@@ -52,34 +52,37 @@ class App {
 
 	static function main() {
 
-		var colorBlocks = getColors( '/home/tong/dev/pro/archillect/meta', 1, 199795, 1000 );
+		window.onload = function() {
 
-		info = document.createDivElement();
-		info.id = 'info';
-		document.body.appendChild( info );
+			var colorBlocks = getColors( '/home/tong/dev/pro/archillect/meta', 1, 199795, 1000 );
 
-		for( i in 0...colorBlocks.length ) {
-			var colors = colorBlocks[i];
-			var canvas = document.createCanvasElement();
-			canvas.width = window.innerWidth;
-			canvas.height = colors.length;
-			document.body.appendChild( canvas );
-			var ctx = canvas.getContext2d();
-			for( j in 0...colors.length ) {
-				var c = colors[j];
-				ctx.fillStyle = c;
-				ctx.fillRect( 0, j, canvas.width, 1 );
+			info = document.createDivElement();
+			info.id = 'info';
+			document.body.appendChild( info );
+
+			for( i in 0...colorBlocks.length ) {
+				var colors = colorBlocks[i];
+				var canvas = document.createCanvasElement();
+				canvas.width = 1; //window.innerWidth;
+				canvas.height = colors.length;
+				document.body.appendChild( canvas );
+				var ctx = canvas.getContext2d();
+				for( j in 0...colors.length ) {
+					var c = colors[j];
+					ctx.fillStyle = c;
+					ctx.fillRect( 0, j, canvas.width, 1 );
+				}
 			}
+
+			updatePositionInfo();
+
+			window.addEventListener( 'scroll', function(e){
+				updatePositionInfo();
+			}, false );
+			window.addEventListener( 'resize', function(e){
+				updatePositionInfo();
+			}, false );
 		}
-
-		updatePositionInfo();
-
-		window.addEventListener( 'scroll', function(e){
-			updatePositionInfo();
-		}, false );
-		window.addEventListener( 'resize', function(e){
-			updatePositionInfo();
-		}, false );
 	}
 
 	#end
