@@ -29,11 +29,12 @@ canvas {
 }
 #info {
 	position: fixed;
-	top: 2px;
-	right: 2px;
-	padding: 4px 6px 3px 6px;
+	top: 4px;
+	right: 4px;
+	padding: 4px 4px 3px 4px;
 	background: rgba(0,0,0,0.8);
 	color: #fff;
+	opacity: 0.9;
 	user-select: none;
 	-webkit-user-select: none;
 	pointer-events: none;

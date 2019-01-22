@@ -6,9 +6,15 @@ import sys.io.File;
 class Gen {
 
 	static function main() {
-		var path = '/home/tong/dev/pro/archillect/meta';
+
+		var args = Sys.args();
+
 		var start = 1;
-		var end = 199795;
+		var end = 209635;
+		var path = args[0];
+		if( path == null ) path = '/home/tong/dev/pro/archillect/archillect-meta/meta';
+		if( !FileSystem.exists( path ) ) throw 'cannot find meta data';
+
 		var out = File.write( 'bin/colors.json' );
 		out.writeString( '[' );
 		for( i in start...end ) {

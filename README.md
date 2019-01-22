@@ -1,5 +1,5 @@
 
-# ARCHILLECT-COLORS
+# |  |  | ARCHILLECT-COLORS
 
 Prints dominant colors of all archillect images.
 

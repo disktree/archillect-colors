@@ -13,8 +13,8 @@ class App {
 
 	static function updatePositionInfo() {
 		var total = numColors;
-		var start = (total - window.scrollY);
-		var end = (total - (window.scrollY+window.innerHeight));
+		var start = Std.int(total - window.scrollY);
+		var end = Std.int(total - (window.scrollY+window.innerHeight));
 		if( end < 1 ) end = 1;
 		info.textContent = start+'-'+end;
 	}
