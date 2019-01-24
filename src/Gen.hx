@@ -1,5 +1,8 @@
 
+import om.Json;
 import om.color.space.RGB;
+import Sys.print;
+import Sys.println;
 import sys.FileSystem;
 import sys.io.File;
 
@@ -7,24 +10,37 @@ class Gen {
 
 	static function main() {
 
-		var args = Sys.args();
-
 		var start = 1;
-		var end = 209635;
-		var path = args[0];
-		if( path == null ) path = '/home/tong/dev/pro/archillect/archillect-meta/meta';
-		if( !FileSystem.exists( path ) ) throw 'cannot find meta data';
+		var end : Int;
+		var metaPath : String;
+		var outFile = 'bin/colors.json';
 
-		var out = File.write( 'bin/colors.json' );
+		var argsHandler : {getDoc:Void->String,parse:Array<Dynamic>->Void};
+		argsHandler = hxargs.Args.generate([
+			@doc("Path to meta directory") ["-meta"] => (path:String) -> metaPath = path,
+            @doc("Start index")["-start"] => (i:Int) -> start = i,
+            @doc("End index")["-end"] => (i:Int) -> end = i,
+            _ => (arg:String) -> {
+                println( 'Unknown command: $arg' );
+                println( argsHandler.getDoc() );
+                Sys.exit(1);
+	        }
+        ]);
+		argsHandler.parse( Sys.args() );
+
+		if( !FileSystem.exists( metaPath ) ) throw 'meta data path not found';
+		if( end == null ) end = FileSystem.readDirectory( metaPath ).length;
+
+		var out = File.write( outFile );
 		out.writeString( '[' );
 		for( i in start...end ) {
-			var data = haxe.Json.parse( File.getContent( '$path/'+i+'.json' ) ).color;
-			if( data == null ) {
-				Sys.println( 'NULL! [$i]' );
-				data = { r : 0, g : 0, b : 0, a : 1.0 };
+			var color = Json.readFile( '$metaPath/$i.json' ).color;
+			if( color == null ) {
+				Sys.println( '$i NULL' );
+				color = { r : 0, g : 0, b : 0, a : 1.0 };
 			}
 			out.writeString( '"#' );
-			out.writeString( RGB.create( data.r, data.g, data.b ).toHex().substr(1) );
+			out.writeString( RGB.create( color.r, color.g, color.b ).toHex().substr(1) );
 			out.writeString( '"' );
 			if( i < end-1 ) out.writeString( ',' );
 		}

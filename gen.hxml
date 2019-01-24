@@ -2,5 +2,6 @@
 -main Gen
 -lib om.color
 -cp src
+-lib hxargs
 -dce full
 -debug
