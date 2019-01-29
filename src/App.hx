@@ -60,16 +60,24 @@ class App {
 				window.addEventListener( 'resize', function(e){
 					updatePositionInfo();
 				}, false );
-
+				window.addEventListener( 'contextmenu', function(e){
+					e.preventDefault();
+				}, false );
 				/*
-				document.body.addEventListener( 'mousemove', function(e){
+				document.addEventListener( 'mousemove', function(e){
 					var index = numColors - e.pageY + 1;
 					document.body.title = ''+index;
 				}, false );
 				*/
-				document.body.addEventListener( 'mousedown', function(e){
-					var index = numColors - e.pageY + 1;
-					window.open( 'http://archillect.com/$index', '_blank' );
+				document.addEventListener( 'mousedown', function(e){
+					if( e.button == 0 ) {
+						var index = numColors - e.pageY + 1;
+						document.body.title = ''+index;
+						window.open( 'http://archillect.com/$index', '_blank' );
+					} else {
+						e.preventDefault();
+					}
+					return false;
 				}, false );
 			});
 		}
