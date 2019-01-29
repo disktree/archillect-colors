@@ -61,6 +61,16 @@ class App {
 					updatePositionInfo();
 				}, false );
 
+				/*
+				document.body.addEventListener( 'mousemove', function(e){
+					var index = numColors - e.pageY + 1;
+					document.body.title = ''+index;
+				}, false );
+				*/
+				document.body.addEventListener( 'mousedown', function(e){
+					var index = numColors - e.pageY + 1;
+					window.open( 'http://archillect.com/$index', '_blank' );
+				}, false );
 			});
 		}
 	}
