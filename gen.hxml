@@ -1,5 +1,6 @@
 -neko gen.n
 -main Gen
+-lib archillect
 -lib om.color
 -cp src
 -lib hxargs
