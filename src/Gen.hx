@@ -28,6 +28,7 @@ class Gen {
         ]);
 		argsHandler.parse( Sys.args() );
 
+		if( metaPath == null ) throw 'meta data path not specified';
 		if( !FileSystem.exists( metaPath ) ) throw 'meta data path not found';
 		if( end == null ) end = FileSystem.readDirectory( metaPath ).length;
 
