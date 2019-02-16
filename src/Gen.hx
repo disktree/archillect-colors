@@ -1,4 +1,6 @@
 
+#if sys
+
 import om.Json;
 import om.color.space.RGB;
 import Sys.print;
@@ -49,3 +51,5 @@ class Gen {
 		out.close();
 	}
 }
+
+#end

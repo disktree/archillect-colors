@@ -1,4 +1,6 @@
 
+#if js
+
 import js.Browser.window;
 import js.Browser.document;
 import js.html.Element;
@@ -83,3 +85,5 @@ class App {
 		}
 	}
 }
+
+#end
