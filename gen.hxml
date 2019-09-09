@@ -1,8 +1,7 @@
 -neko gen.n
 -main Gen
 -lib archillect
--lib om.color
--cp src
 -lib hxargs
+-lib om.color
 -dce full
 -debug

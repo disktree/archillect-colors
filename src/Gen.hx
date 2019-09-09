@@ -12,10 +12,8 @@ class Gen {
 
 	static function main() {
 
-		var start = 1;
-		var end : Int;
-		var metaPath : String;
-		var outFile = 'bin/colors.json';
+		var start = 1, end : Null<Int>;
+		var metaPath : String, outFile = 'bin/colors.json';
 
 		var argsHandler : {getDoc:Void->String,parse:Array<Dynamic>->Void};
 		argsHandler = hxargs.Args.generate([
@@ -31,15 +29,22 @@ class Gen {
 		argsHandler.parse( Sys.args() );
 
 		if( metaPath == null ) throw 'meta data path not specified';
-		if( !FileSystem.exists( metaPath ) ) throw 'meta data path not found';
+		if( !FileSystem.exists( metaPath ) ) {
+			println( 'meta data path [$metaPath] not found' );
+		}
 		if( end == null ) end = FileSystem.readDirectory( metaPath ).length;
 
 		var out = File.write( outFile );
 		out.writeString( '[' );
 		for( i in start...end ) {
-			var color = Json.readFile( '$metaPath/$i.json' ).color;
+			var path = '$metaPath/$i.json';
+			if( !FileSystem.exists( path ) ) {
+				println( 'meta data path [$path] not found' );
+				continue;
+			}
+			var color = Json.readFile( path ).color;
 			if( color == null ) {
-				Sys.println( '$i NULL' );
+				println( '$i NULL' );
 				color = { r : 0, g : 0, b : 0, a : 1.0 };
 			}
 			out.writeString( '"#' );

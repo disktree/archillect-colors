@@ -1,4 +1,4 @@
-*.png
-*.n
+.vscode/
 bin/app.js*
 bin/colors.json
+gen.n

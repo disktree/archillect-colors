@@ -6,12 +6,14 @@ import js.Browser.document;
 import js.html.Element;
 import js.html.CanvasElement;
 import js.html.CanvasRenderingContext2D;
+import js.html.DivElement;
 import om.FetchTools;
 
 class App {
 
 	static var numColors : Int;
 	static var info : Element;
+	//static var tooltip : Tooltip;
 
 	static function updatePositionInfo() {
 		var total = numColors;
@@ -24,12 +26,14 @@ class App {
 	static function main() {
 
 		window.onload = function() {
-
+			
 			info = document.createDivElement();
 			info.id = 'info';
-			document.body.appendChild( info );
-
 			info.textContent = 'LOADING COLORS';
+			document.body.appendChild( info );
+		
+			//tooltip = new Tooltip();
+			//document.body.appendChild( tooltip.element );
 
 			FetchTools.fetchJson( 'colors.json' ).then( function(colors:Array<String>){
 
@@ -65,12 +69,12 @@ class App {
 				window.addEventListener( 'contextmenu', function(e){
 					e.preventDefault();
 				}, false );
-				/*
 				document.addEventListener( 'mousemove', function(e){
 					var index = numColors - e.pageY + 1;
 					document.body.title = ''+index;
+					//tooltip.show(index);
 				}, false );
-				*/
+				/*				
 				document.addEventListener( 'mousedown', function(e){
 					if( e.button == 0 ) {
 						var index = numColors - e.pageY + 1;
@@ -81,9 +85,26 @@ class App {
 					}
 					return false;
 				}, false );
+				*/
 			});
 		}
 	}
 }
+
+/*
+private class Tooltip {
+
+	public var element(default,null) : DivElement;
+
+	public function new() {
+		element = document.createDivElement();
+		element.id = 'tooltip';
+	}
+
+	public function show( index : Int ) {
+		element.textContent = '#'+index;
+	}
+}
+*/
 
 #end
